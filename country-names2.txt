@@ -1,0 +1,250 @@
+Text: Andorra
+Text: United Arab Emirates
+Text: Afghanistan
+Text: Antigua and Barbuda
+Text: Anguilla
+Text: Albania
+Text: Armenia
+Text: Angola
+Text: Antarctica
+Text: Argentina
+Text: American Samoa
+Text: Austria
+Text: Australia
+Text: Aruba
+Text: Åland
+Text: Azerbaijan
+Text: Bosnia and Herzegovina
+Text: Barbados
+Text: Bangladesh
+Text: Belgium
+Text: Burkina Faso
+Text: Bulgaria
+Text: Bahrain
+Text: Burundi
+Text: Benin
+Text: Saint Barthélemy
+Text: Bermuda
+Text: Brunei
+Text: Bolivia
+Text: Bonaire
+Text: Brazil
+Text: Bahamas
+Text: Bhutan
+Text: Bouvet Island
+Text: Botswana
+Text: Belarus
+Text: Belize
+Text: Canada
+Text: Cocos [Keeling] Islands
+Text: Democratic Republic of the Congo
+Text: Central African Republic
+Text: Republic of the Congo
+Text: Switzerland
+Text: Ivory Coast
+Text: Cook Islands
+Text: Chile
+Text: Cameroon
+Text: China
+Text: Colombia
+Text: Costa Rica
+Text: Cuba
+Text: Cape Verde
+Text: Curacao
+Text: Christmas Island
+Text: Cyprus
+Text: Czech Republic
+Text: Germany
+Text: Djibouti
+Text: Denmark
+Text: Dominica
+Text: Dominican Republic
+Text: Algeria
+Text: Ecuador
+Text: Estonia
+Text: Egypt
+Text: Western Sahara
+Text: Eritrea
+Text: Spain
+Text: Ethiopia
+Text: Finland
+Text: Fiji
+Text: Falkland Islands
+Text: Micronesia
+Text: Faroe Islands
+Text: France
+Text: Gabon
+Text: United Kingdom
+Text: Grenada
+Text: Georgia
+Text: French Guiana
+Text: Guernsey
+Text: Ghana
+Text: Gibraltar
+Text: Greenland
+Text: Gambia
+Text: Guinea
+Text: Guadeloupe
+Text: Equatorial Guinea
+Text: Greece
+Text: South Georgia and the South Sandwich Islands
+Text: Guatemala
+Text: Guam
+Text: Guinea-Bissau
+Text: Guyana
+Text: Hong Kong
+Text: Heard Island and McDonald Islands
+Text: Honduras
+Text: Croatia
+Text: Haiti
+Text: Hungary
+Text: Indonesia
+Text: Ireland
+Text: Israel
+Text: Isle of Man
+Text: India
+Text: British Indian Ocean Territory
+Text: Iraq
+Text: Iran
+Text: Iceland
+Text: Italy
+Text: Jersey
+Text: Jamaica
+Text: Jordan
+Text: Japan
+Text: Kenya
+Text: Kyrgyzstan
+Text: Cambodia
+Text: Kiribati
+Text: Comoros
+Text: Saint Kitts and Nevis
+Text: North Korea
+Text: South Korea
+Text: Kuwait
+Text: Cayman Islands
+Text: Kazakhstan
+Text: Laos
+Text: Lebanon
+Text: Saint Lucia
+Text: Liechtenstein
+Text: Sri Lanka
+Text: Liberia
+Text: Lesotho
+Text: Lithuania
+Text: Luxembourg
+Text: Latvia
+Text: Libya
+Text: Morocco
+Text: Monaco
+Text: Moldova
+Text: Montenegro
+Text: Saint Martin
+Text: Madagascar
+Text: Marshall Islands
+Text: Macedonia
+Text: Mali
+Text: Myanmar [Burma]
+Text: Mongolia
+Text: Macao
+Text: Northern Mariana Islands
+Text: Martinique
+Text: Mauritania
+Text: Montserrat
+Text: Malta
+Text: Mauritius
+Text: Maldives
+Text: Malawi
+Text: Mexico
+Text: Malaysia
+Text: Mozambique
+Text: Namibia
+Text: New Caledonia
+Text: Niger
+Text: Norfolk Island
+Text: Nigeria
+Text: Nicaragua
+Text: Netherlands
+Text: Norway
+Text: Nepal
+Text: Nauru
+Text: Niue
+Text: New Zealand
+Text: Oman
+Text: Panama
+Text: Peru
+Text: French Polynesia
+Text: Papua New Guinea
+Text: Philippines
+Text: Pakistan
+Text: Poland
+Text: Saint Pierre and Miquelon
+Text: Pitcairn Islands
+Text: Puerto Rico
+Text: Palestine
+Text: Portugal
+Text: Palau
+Text: Paraguay
+Text: Qatar
+Text: Réunion
+Text: Romania
+Text: Serbia
+Text: Russia
+Text: Rwanda
+Text: Saudi Arabia
+Text: Solomon Islands
+Text: Seychelles
+Text: Sudan
+Text: Sweden
+Text: Singapore
+Text: Saint Helena
+Text: Slovenia
+Text: Svalbard and Jan Mayen
+Text: Slovakia
+Text: Sierra Leone
+Text: San Marino
+Text: Senegal
+Text: Somalia
+Text: Suriname
+Text: South Sudan
+Text: São Tomé and Príncipe
+Text: El Salvador
+Text: Sint Maarten
+Text: Syria
+Text: Swaziland
+Text: Turks and Caicos Islands
+Text: Chad
+Text: French Southern Territories
+Text: Togo
+Text: Thailand
+Text: Tajikistan
+Text: Tokelau
+Text: East Timor
+Text: Turkmenistan
+Text: Tunisia
+Text: Tonga
+Text: Turkey
+Text: Trinidad and Tobago
+Text: Tuvalu
+Text: Taiwan
+Text: Tanzania
+Text: Ukraine
+Text: Uganda
+Text: U.S. Minor Outlying Islands
+Text: United States
+Text: Uruguay
+Text: Uzbekistan
+Text: Vatican City
+Text: Saint Vincent and the Grenadines
+Text: Venezuela
+Text: British Virgin Islands
+Text: U.S. Virgin Islands
+Text: Vietnam
+Text: Vanuatu
+Text: Wallis and Futuna
+Text: Samoa
+Text: Kosovo
+Text: Yemen
+Text: Mayotte
+Text: South Africa
+Text: Zambia
+Text: Zimbabwe
