@@ -13,8 +13,20 @@ import csv, sys
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog 
 
-FILENAME = ''
-contacts = []
+FILENAME = 'contacts.csv'
+
+def display_title():
+    print("Clayton's Contact Mangager App\n")
+
+def display_menu():
+    
+    print("COMMAND MENU\n")
+
+    print("""list - Display all contacts\n
+            view - View a contact\n
+            add - Add a contact\n
+            del - Delete a contact\n
+            exit - Exit program\n""")
 
 def read_contacts():
     global FILENAME
@@ -29,29 +41,56 @@ def read_contacts():
     
     return contacts
 
-def view():
-    global contacts
+def main():
     contacts = read_contacts()
-    if len(contacts) > 0:
-        view_contacts_window = tk.Toplevel()
-        view_contacts_window.title("Your contacts")
-        listbox = tk.Listbox(view_contacts_window, width=50)
-        listbox.grid(row=0,column=0,columnspan=4)
-        for i, row in enumerate(contacts, start=1):
-            listbox.insert(tk.END, f"{i}. {row[0]} - {row[1]} - {row[2]}\n")
-    else:
-        messagebox.showerror(message="There are no contacts in the list")
+    display_title()
+    display_menu()
 
-def get_contact_number(selected):
+    while True:
+        command = input("Command: ")
+        if command == "list":
+            display(contacts)
+        elif command == "view":
+            view(contacts)
+        elif command == "add":
+            add(contacts)
+        elif command == "del":
+            delete(contacts)
+        elif command == "exit":
+            break
+        else:
+            print("Not a valid command. Please try again.\n")
+    print("Bye!")
+
+def display(contacts):
+    
+    if len(contacts) != 0:
+        for i, row in enumerate(contacts, start=1):
+            print(f"{i}. {row[0]}\n")
+
+    else:
+        print("There are no contacts in the list")
+        return contacts
+
+def view(contacts):
+    number = get_contact_number
+    if number > 0:
+        contact = contacts[number-1]
+        print("Name:", contact[0])
+        print("Email:", contact[1])
+        print("Phone:", contact[2])
+        print() 
+
+def get_contact_number(contacts):
     while True:
         try:
-            number = selected
+            number = int(input("Number: "))
         except ValueError:
-            messagebox.showerror(message="Invalid integer.\n")
+            print("Invalid integer.\n")
             return -1
             
         if number < 1 or number > len(contacts):
-            messagebox.showerror(message="Invalid contact number.\n")
+            print("Invalid contact number.\n")
             return -1
         else:
             return number
@@ -153,14 +192,5 @@ def exit_program():
     messagebox.showinfo(message="Terminating program...")
     sys.exit()
 
-root = tk.Tk()
-root.title("Contact Manager App")
-
-ttk.Label(root, text="Clayton's Contact Manager App").grid(column=0,row=0,columnspan=2,padx=10,pady=10)
-ttk.Button(root, text="Import File", command=import_file).grid(column=0,row=1,columnspan=2)
-ttk.Button(root, text="View Contacts", command=view).grid(column=0,row=2,columnspan=2)
-ttk.Button(root, text="Add", command=add).grid(column=0,row=3)
-ttk.Button(root, text="Delete", command=delete).grid(column=1,row=3)
-ttk.Button(root, text="Exit", command=exit_program).grid(column=0,row=5)
-
-root.mainloop()
+if __name__ == "__main__":  
+    main()
