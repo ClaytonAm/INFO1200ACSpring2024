@@ -14,7 +14,9 @@ skill_ability_scores = [
 ]
 proficiency_bonus = 2
 def display_menu():
-    print("\nCharacter Sheet\nMAIN MENU\n")
+    print(
+        "\nCharacter Sheet\nMAIN MENU\n"
+        )
     print("Commands: ")
     print("View")
     print("Edit")
@@ -85,7 +87,7 @@ def display_skills():
     proficiencies = read_proficiencies()
     for i,j in zip(skill_names,skill_mods):
         if proficiencies in skill_names:
-            for proficiencies in skill_names
+            for proficiencies in skill_names:
                 print(f"{i} - {int(j) + proficiency_bonus}")
         else:
             print(f"{i} - {j} ")
