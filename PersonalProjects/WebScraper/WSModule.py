@@ -21,11 +21,11 @@ def get_html_content(url):
 
 def extract_tags_and_classes(html_content):
     soup = BeautifulSoup(html_content.text, 'html5lib')
-    tags_set = set()            #initializes a new set for the html tags
+    tags_list = []            #initializes a new set for the html tags
     classes_dict = {}           #initializes a new dictionary for the classes
 
     for tag in soup.find_all(True): #iterates through html content, assigns values to tag
-        tags_set.add(tag.name)      #adds each new html tag to the tags_set
+        tags_list.add(tag.name)      #adds each new html tag to the tags_set
         if tag.get('class'):        #if the html tag has an associated css class
             for css_class in tag.get('class'):        #iterate through each css class associated with the tag, assign to css_class
                 if tag.name not in classes_dict:      #if the html tag is not already in the dictionary as a key, 
@@ -36,7 +36,7 @@ def extract_tags_and_classes(html_content):
         #converts tags_set into a list, and sorts it
         #declares tag as key, declares classes as values associated with a key. Also converts each classes set into a sorted list.
     return \
-        sorted(list(tags_set)), \
+        sorted(tags_list), \
         {tag: sorted(list(classes)) for tag, classes in classes_dict.items()}
 
 def pull_classes_from_dict(keys, dictionary):

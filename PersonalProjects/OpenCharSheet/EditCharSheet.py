@@ -1,6 +1,6 @@
 import csv, sys
 
-ability_score_names = ["Str","Dex","Con","Int","Wis","Cha"]
+ability_score_names = ["str","dex","con","int","wis","cha"]
 skill_names = [
     "acrobatics", "animal handling", "arcana", "athletics", "deception", "history",
     "insight", "intimidation", "investigation", "medicine", "nature", "perception",
@@ -80,7 +80,7 @@ def read_ability_scores():
     with open("abilityscores.csv", newline="") as file:
             reader = csv.reader(file)
             for row in reader:
-                ability_scores.extend(row)
+                ability_scores.append(row)
     return ability_scores
 
 def display_skills():
@@ -106,27 +106,39 @@ def read_proficiencies():
     return proficiencies
 
 def calc_mod(ability_scores):
-    possible_ability_scores = [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30]
-    modifiers_list = [-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10]
-
-    score_value = int(ability_scores)
-    if score_value % 2 == 0:
-        i = possible_ability_scores.index(score_value)
-        modifier = modifiers_list[i]
+    as_mods = zip([x for x in range(0,32,2)],[y for y in range(-5,11)])
+    if int(ability_scores[1]) % 2 == 0:
+        return [x[1] for x in as_mods if ability_scores[1]==x[0]][0]
     else:
-        value = score_value - 1
-        i = possible_ability_scores.index(value)
-        modifier = modifiers_list[i]
-    return modifier
+        i = int(ability_scores[1]) - 1
+        return [x[1] for x in as_mods if i==x[0]][0]
+
+    #This is all redundant
+    # score_value = int(ability_scores)
+    # if score_value % 2 == 0:
+    #     i = possible_ability_scores.index(score_value)
+    #     modifier = modifiers_list[i]
+    # else:
+    #     value = score_value - 1
+    #     i = possible_ability_scores.index(value)
+    #     modifier = modifiers_list[i]
+    # return modifier
 
 def calc_skill_modifiers():
     ability_scores = read_ability_scores()
     modifiers = calc_mod(ability_scores)
     ability_scores_plus_modifiers = zip(ability_score_names,modifiers)
     skill_modifiers = []
+    []
     for i,j in zip(skill_names,skill_ability_scores):
         if j.lower() in ability_scores_plus_modifiers:
             skill_modifiers.extend(ability_scores_plus_modifiers[j])
+
+def skills():
+    zipped_ability_scores = zip(ability_score_names,read_ability_scores)
+    asm = zip(skill_names,skill_ability_scores)
+    [x for x in asm for x[1] in zipped_ability_scores[x]]
+    
 
 def main():
     display_menu()
