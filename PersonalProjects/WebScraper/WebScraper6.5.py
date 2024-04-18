@@ -1,5 +1,5 @@
 #this version of WebScraper:
-#got rid of UI because fuck that
+#new ui that doesn't suck
 #displays list of html tags
 #user selection of html tags
 #displays corresponding css classes
@@ -11,15 +11,18 @@ from bs4 import BeautifulSoup
 import WSModule as ws
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog 
+from ttkthemes import ThemedStyle
+#https://www.scrapethissite.com/pages/forms/
 
 def get_html_content(url):
-    html_content = requests.get(url)
-    html_content.raise_for_status()
-    return html_content
+    response = requests.get(url)
+    response.raise_for_status()
+    return response
 
-def build_classes_dict(html_content):
+def extract_tags_and_classes(html_content):
     soup = BeautifulSoup(html_content.text, 'html5lib')
     classes_dict = {}           #initializes a new dictionary for the classes
+    tags_set = set()
 
     for tag in soup.find_all(True):
         if tag.get('class'):   
@@ -28,22 +31,17 @@ def build_classes_dict(html_content):
                 classes_dict[tag_name] = set()
             for css_class in tag.get('class'): 
                 classes_dict[tag_name].add(css_class)
-    print(classes_dict)
-    return {tag_name: sorted(list(classes)) for tag_name, classes in classes_dict.items()}
-
-def extract_tags(html_content):
-    soup = BeautifulSoup(html_content.text, 'html5lib')
-    tags_set = set()  
-    for tag in soup.find_all(True):
         tags_set.add(tag.name)
-    return sorted(tags_set)
+    print(classes_dict)
+    return \
+        sorted(tags_set), \
+        {tag_name: sorted(list(classes)) for tag_name, classes in classes_dict.items()}
 
 def scrape_and_return():
     url = url_entry.get()
     try:
         html_content = get_html_content(url)
-        tags = extract_tags(html_content)
-        classes_dict = build_classes_dict(html_content)
+        tags, classes_dict = extract_tags_and_classes(html_content)
 
         print(tags)
         return html_content, tags, classes_dict
@@ -80,19 +78,12 @@ def view_classes():
     ttk.Button(view_classes_window, text="enter", command=insert_classes).grid()
 
     tags_listbox = tk.Listbox(view_classes_window, width=25)
-    tags_listbox.grid(row=0,column=1)
+    tags_listbox.grid(row=0,column=1, padx=10, pady=10)
     for i in tags:
         tags_listbox.insert(tk.END, i)
 
     classes_listbox = tk.Listbox(view_classes_window, width=25)
-    classes_listbox.grid(row=0,column=2)
-
-def pull_classes_from_dict(keys, dictionary):
-    
-    if keys in dictionary:
-        return dictionary[keys]
-    else:
-        return None
+    classes_listbox.grid(row=0,column=2, padx=10, pady=10)
 
 def pull_content(tag_select, classes_select, html_content):
     soup = BeautifulSoup(html_content.text, 'html5lib')
@@ -103,55 +94,67 @@ def pull_content(tag_select, classes_select, html_content):
 
     return '\n'.join(pulled_content)
 
-def main():
-    print("https://www.scrapethissite.com/pages/forms/")
-    html_content, tags, classes_dict = scrape_and_return()
-    choice = "y"
+def write_content(content):
+    FILENAME = filedialog.asksaveasfilename(filetypes=[("TXT Files", "*.txt")])
 
-    while choice.lower() == "y": 
-        selection = input("Get classes or select tag?(g/s): ")
-        if selection.lower() == "g":
-            tag_get = input("Enter HTML tag: ")
-            print(f"Associated classes: {pull_classes_from_dict(tag_get, classes_dict)}")
-        elif selection.lower() == "s":
-            tag_get = input("Enter HTML tag: ")
-            print(f'Associated classes: {pull_classes_from_dict(tag_get, classes_dict)}')
-            
-            classes_selection = input("Enter css class to select: ")
-            pulled_content = pull_content(tag_get, classes_selection, html_content)
-           
-            choice = input("Write to file?(y/n): ")
-            if choice.lower() == "y":
-                print("/Users/AmmonClayton/Documents/GitHub/INFO1200ACSpring2024/scraped.txt")
-                file_path = '/Users/AmmonClayton/Documents/GitHub/INFO1200ACSpring2024/scraped.txt'
-                try:
-                    with open(file_path, 'w',encoding="utf-8") as file:
-                        file.write(pulled_content)
-                        print("Data saved")
-                except Exception as e:
-                    print("An error occurred:", e)
-            else:
-                break
-        else:
-            print("Please enter a valid selection.")
-    
+    #this formats the scraped data for writing
+
+
+    with open(FILENAME, 'w', newline='') as File:
+        File.write(content)
+
+def nav_pages(base_url):
+    per_page = per_page_entry.get()
+    num_pages = num_pages.get()
+
+    for page in range(1, num_pages + 1):
+        urls_list = []
+        mod_url = f"{base_url}?page_num={page}&per_page={per_page}"
+        urls_list.append(mod_url)
+    return urls_list
+
+def scrape_pagination(base_url):
+    urls_list = nav_pages(base_url)
+    response = get_html_content(urls_list[0])
+    for url in urls_list:
+        if url != urls_list[0]:
+            response += get_html_content(url)
 
 root = tk.Tk()
 root.title("Web Scraper 6.5")
+print("https://www.scrapethissite.com/pages/forms/")
 
-#these are just the labels and buttons on the root window.
-ttk.Label(root, text="Web Scraper 6.5").grid(column=0,row=0,columnspan=2,padx=10,pady=10)
-url_entry = tk.Entry(root)
-url_entry.grid(column=0, columnspan=2, row=1)
-ttk.Button(root, text="Get Content", command=scrape_and_return).grid(column=2,row=1)
+#sets the theme so it doesn't look so bad
+THEME_NAME = "equilux"
+style = ThemedStyle(root)
+style.theme_use(THEME_NAME)
 
-ttk.Button(root,text="View Tags", command=view_tags).grid(column=0, row=2)
+#frame for the initial entry box and button
+top_frame = ttk.Frame(root, borderwidth=2, relief="groove")
+top_frame.grid(column=0,row=0,columnspan=2,padx=10,pady=2)
+ttk.Label(top_frame, text="Web Scraper 6.5").grid(column=0,row=0,columnspan=2,padx=10,pady=10)
+url_entry = tk.Entry(top_frame)
+url_entry.grid(column=0, columnspan=3, row=1)
+ttk.Button(top_frame, text="Get Content", command=scrape_and_return).grid(column=1,row=2)
 
-ttk.Button(root, text="View Classes", command=view_classes).grid(column=1,row=2)
+#buttons frame
+buttons_frame = ttk.Frame(root, borderwidth=2, relief="groove")
+buttons_frame.grid(column=0,row=1,columnspan=2,padx=10,pady=2)
+ttk.Button(buttons_frame,text="View Tags", command=view_tags).grid(column=0, row=2)
+ttk.Button(buttons_frame, text="View Classes", command=view_classes).grid(column=1,row=2)
+ttk.Button(buttons_frame, text="Write", command=write_content).grid(column=0,row=3)
 
-# ttk.Button(root, text="Write", command=write_content).grid(column=0,row=3)
+#pagination frame
+pagination_frame = ttk.Frame(root, borderwidth=2, relief="groove")
+pagination_frame.grid(column=0,row=2,columnspan=2,padx=10,pady=2)
+ttk.Label(pagination_frame, text="Results per page:").grid(column=0, row=0)
+per_page_entry = ttk.Entry(pagination_frame)
+per_page_entry.grid(column=1,row=0)
+ttk.Label(pagination_frame, text="Pages: ").grid(column=0, row=1)
+num_pages = ttk.Entry(pagination_frame)
+num_pages.grid(column=1,row=1)
 
-# ttk.Button(root, text="Delete", command=delete).grid(column=1,row=3)
+
 # ttk.Button(root, text="Exit", command=exit_program).grid(column=0,row=5)
 
 root.mainloop()
