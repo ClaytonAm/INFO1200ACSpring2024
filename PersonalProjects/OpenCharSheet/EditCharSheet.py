@@ -1,17 +1,17 @@
 import csv, sys
 
-ability_score_names = ["str","dex","con","int","wis","cha"]
-skill_names = [
+ability_score_names = ("str","dex","con","int","wis","cha")
+skill_names = (
     "acrobatics", "animal handling", "arcana", "athletics", "deception", "history",
     "insight", "intimidation", "investigation", "medicine", "nature", "perception",
     "performance", "persuasion", "religion", "sleight of hand", "stealth", "survival"
-]
-skill_ability_scores = [
+)
+skill_ability_scores = (
     "dex", "wis", "int", "str", "cha",
     "int", "wis", "cha", "int", "wis",
     "int", "wis", "cha", "cha", "int",
     "dex", "dex", "wis"
-]
+)
 proficiency_bonus = 2
 def display_menu():
     print(
