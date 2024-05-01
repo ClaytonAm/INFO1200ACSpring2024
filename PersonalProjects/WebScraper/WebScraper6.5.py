@@ -1,5 +1,5 @@
 #to-do:
-#new ui that doesn't suck
+#new ui that doesn't suck as much
 #displays list of html tags
 #user selection of html tags
 #displays corresponding css classes
@@ -12,6 +12,7 @@ import WSModule as ws
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog 
 from ttkthemes import ThemedStyle
+import csv, sys
 #https://www.scrapethissite.com/pages/forms/
 
 
@@ -49,7 +50,8 @@ def scrape_and_return():
     except Exception as e:
         print('Error', f'Error extracting html content: {e}')
         return
-    
+
+#deprecated
 # def view_tags():
 #     html_content, tags, classes_dict = scrape_and_return()
 
@@ -61,45 +63,59 @@ def scrape_and_return():
 #     for i in tags:
 #         listbox.insert(tk.END, i)
 
-def view_tags_classes():
-    html_content, tags, classes_dict = scrape_and_return()
-    def insert_classes():
-        tag = tag_entry.get()
-        classes_listbox.delete(0, tk.END)
-        if tag in classes_dict:
-            for i in classes_dict[tag]:
-                classes_listbox.insert(tk.END, i)
+#deprecated
+# def view_tags_classes():
+#     html_content, tags, classes_dict = scrape_and_return()
+#     def insert_classes():
+#         tag = tag_entry.get()
+#         classes_listbox.delete(0, tk.END)
+#         if tag in classes_dict:
+#             for i in classes_dict[tag]:
+#                 classes_listbox.insert(tk.END, i)
 
-    view_classes_frame = tk.Toplevel(root)
-    view_classes_frame.title("View Classes")
+#     view_classes_frame = tk.Toplevel(root)
+#     view_classes_frame.title("View Classes")
 
-    ttk.Label(view_classes_frame, text="Enter tag:").grid(column=0,row=0)
-    tag_entry = ttk.Entry(view_classes_frame)
-    tag_entry.grid(column=0,row=1)
-    ttk.Button(view_classes_frame, text="enter", command=insert_classes).grid()
+#     ttk.Label(view_classes_frame, text="Enter tag:").grid(column=0,row=0)
+#     tag_entry = ttk.Entry(view_classes_frame)
+#     tag_entry.grid(column=0,row=1)
+#     ttk.Button(view_classes_frame, text="Submit", command=insert_classes).grid()
 
-    tags_listbox = tk.Listbox(view_classes_frame, width=25)
-    tags_listbox.grid(row=0,column=1, padx=10, pady=10)
+#     tags_listbox = tk.Listbox(view_classes_frame, width=25)
+#     tags_listbox.grid(row=0,column=1, padx=10, pady=10)
+#     for i in tags:
+#         tags_listbox.insert(tk.END, i)
+
+#     classes_listbox = tk.Listbox(view_classes_frame, width=25)
+#     classes_listbox.grid(row=0,column=2, padx=10, pady=10)
+def insert_tags():
+    html_content, tags, classes_dict = scrape_and_return()  #these are quick and dirty. Figure out a better way.
     for i in tags:
         tags_listbox.insert(tk.END, i)
 
-    classes_listbox = tk.Listbox(view_classes_frame, width=25)
-    classes_listbox.grid(row=0,column=2, padx=10, pady=10)
+def insert_classes():
+    html_content, tags, classes_dict = scrape_and_return()  #these are quick and dirty. Figure out a better way.
+    tag = tag_entry.get()
+    classes_listbox.delete(0, tk.END)
+    if tag in classes_dict:
+        for i in classes_dict[tag]:
+            classes_listbox.insert(tk.END, i)
 
-def pull_content(tag_select, classes_select, html_content):
+def pull_content():
+    html_content, tags, classes_dict = scrape_and_return()  #these are quick and dirty. Figure out a better way.
+    tag_select = tag_entry.get()
+    class_select = class_entry.get()
     soup = BeautifulSoup(html_content.text, 'html5lib')
     pulled_content = []
 
-    for element in soup.find_all(tag_select, class_=classes_select, recursive=True):
+    for element in soup.find_all(tag_select, class_=class_select, recursive=True):
         pulled_content.append(element.text.strip())
 
     return '\n'.join(pulled_content)
 
-def write_content(content):
+def write_content():
+    content = pull_content()
     FILENAME = filedialog.asksaveasfilename(filetypes=[("TXT Files", "*.txt")])
-
-    #this formats the scraped data for writing
-
 
     with open(FILENAME, 'w', newline='') as File:
         File.write(content)
@@ -120,6 +136,7 @@ def scrape_pagination(base_url):
     for url in urls_list:
         if url != urls_list[0]:
             response += get_html_content(url)
+    return response
 
 root = tk.Tk()
 root.title("Web Scraper 6.5")
@@ -141,11 +158,12 @@ ttk.Button(top_frame, text="Get Content", command=scrape_and_return).grid(column
 #buttons frame
 buttons_frame = ttk.Frame(root, borderwidth=2, relief="groove")
 buttons_frame.grid(column=0,row=1,columnspan=2,padx=10,pady=2,sticky=tk.W)
-ttk.Button(buttons_frame,text="View Tags & Classes", command=view_tags_classes).grid(column=0, row=2)
+ttk.Button(buttons_frame,text="View Tags", command=insert_tags).grid(column=0, row=2)
 # ttk.Button(buttons_frame, text="View Classes", command=view_classes).grid(column=1,row=2)
 ttk.Button(buttons_frame, text="Write", command=write_content).grid(column=0,row=3)
 
 #pagination frame
+#these are not actually functional yet
 pagination_frame = ttk.Frame(root, borderwidth=2, relief="groove")
 pagination_frame.grid(column=0,row=2,columnspan=2,padx=10,pady=2,sticky=tk.W)
 ttk.Label(pagination_frame, text="Results per page:").grid(column=0, row=0)
@@ -160,23 +178,22 @@ num_pages.grid(column=1,row=1)
 #tags and classes frame
 view_classes_frame = ttk.Frame(root,borderwidth=2,relief="groove")
 view_classes_frame.grid(column=2,row=0,rowspan=3,padx=10,pady=2)
-
+#tags buttons
 ttk.Label(view_classes_frame, text="Enter tag:").grid(column=0,row=0)
 tag_entry = ttk.Entry(view_classes_frame)
 tag_entry.grid(column=0,row=1)
-# ttk.Button(view_classes_frame, text="enter", command=insert_classes).grid()
-
+ttk.Button(view_classes_frame, text="enter", command=insert_classes).grid(column=0,row=2)
+#tags listbox
 tags_listbox = tk.Listbox(view_classes_frame, width=25)
-tags_listbox.grid(row=0,column=1, padx=10, pady=10)
-# for i in tags:
-#     tags_listbox.insert(tk.END, i)
-
+tags_listbox.grid(row=3,column=0, padx=10, pady=10)
+#classes buttons
+ttk.Label(view_classes_frame, text="Enter class:").grid(column=1,row=0)
+class_entry = ttk.Entry(view_classes_frame)
+class_entry.grid(column=1,row=1)
+ttk.Button(view_classes_frame, text="enter", command=pull_content).grid(column=1,row=2)
+#classes listbox
 classes_listbox = tk.Listbox(view_classes_frame, width=25)
-classes_listbox.grid(row=0,column=2, padx=10, pady=10)
+classes_listbox.grid(row=3,column=1, padx=10, pady=10)
 
-
-# ttk.Button(root, text="Exit", command=exit_program).grid(column=0,row=5)
 
 root.mainloop()
-
-kyle crandall, lynn crandall
